@@ -15,5 +15,11 @@
   "bugs": {
     "url": "https://github.com/Otavioensa/pagarme-client/issues"
   },
-  "homepage": "https://github.com/Otavioensa/pagarme-client#readme"
+  "homepage": "https://github.com/Otavioensa/pagarme-client#readme",
+  "dependencies": {
+    "dotenv": "^4.0.0",
+    "pagarme": "^3.1.2",
+    "request": "^2.83.0",
+    "request-promise": "^4.2.2"
+  }
 }
