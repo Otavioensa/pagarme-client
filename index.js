@@ -3,12 +3,10 @@
 const request = require('request-promise');
 const cardHashGenerator = require('./cardHashGenerator')
 const payload = require('./payload')
-const card_id = require('./config').keys.card_id
 
-const requestWrapper = (getPayload) => {
+const requestWrapper = (getPayload, params) => {
   return cardHashGenerator.generate()
-    .then((card_hash) =>  request(getPayload(card_hash, card_id)))
-    .then((result) => console.log(result))
+    .then((card_hash) =>  request(getPayload(card_hash, params)))
 }
 
 const creditCardOneInstallment = () => requestWrapper(payload.creditCardOneInstallment)
@@ -19,14 +17,15 @@ const creditCardSyncPostback = () => requestWrapper(payload.creditCardSyncPostba
 
 const oneClickBuy = () => requestWrapper(payload.oneClickBuy)
 
-const authorizeCreditCardTransaction = () => requestWrapper(payload.authorizeCreditCardTransaction)
+const authorizeAndCaptureSmallerAmount = () => requestWrapper(payload.authorizeCreditCardTransaction)
+  .then((response) => requestWrapper(payload.captureSmallerAmount, { id: response.id }))
 
 return Promise.all([
   creditCardOneInstallment(),
   creditCardMultipleInstallments(),
   creditCardSyncPostback(),
   oneClickBuy(),
-  authorizeCreditCardTransaction()
+  authorizeAndCaptureSmallerAmount()
 ])
 .then(() => console.log('done'))
 .catch((err) => console.log('ops, we got an error here : ', err))

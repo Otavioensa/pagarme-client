@@ -367,3 +367,15 @@ exports.authorizeCreditCardTransaction = (card_hash) => {
     json: true
   }
 }
+
+exports.captureSmallerAmount = (card_hash, params) => {
+  return {
+    method: 'POST',
+    uri: `https://api.pagar.me/1/transactions/${params.id}/capture`,
+    body: {
+      amount: '1000',
+      api_key: api_key
+    },
+    json: true
+  }
+}
