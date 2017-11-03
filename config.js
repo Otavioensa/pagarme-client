@@ -2,7 +2,8 @@
 
 const keys = {
   api_key: process.env.API_KEY,
-  encryption_key: process.env.ENCRYPTION_KEY
+  encryption_key: process.env.ENCRYPTION_KEY,
+  card_id: process.env.CARD_ID
 }
 
 const cardInfo = {
