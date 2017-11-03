@@ -19,11 +19,14 @@ const creditCardSyncPostback = () => requestWrapper(payload.creditCardSyncPostba
 
 const oneClickBuy = () => requestWrapper(payload.oneClickBuy)
 
+const authorizeCreditCardTransaction = () => requestWrapper(payload.authorizeCreditCardTransaction)
+
 return Promise.all([
   creditCardOneInstallment(),
   creditCardMultipleInstallments(),
   creditCardSyncPostback(),
-  oneClickBuy()
+  oneClickBuy(),
+  authorizeCreditCardTransaction()
 ])
 .then(() => console.log('done'))
 .catch((err) => console.log('ops, we got an error here : ', err))
