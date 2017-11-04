@@ -9,23 +9,27 @@ const requestWrapper = (getPayload, params) => {
     .then((card_hash) =>  request(getPayload(card_hash, params)))
 }
 
-const creditCardOneInstallment = () => requestWrapper(payload.creditCardOneInstallment)
+const creditCardWithOneInstallment = () => requestWrapper(payload.creditCardWithOneInstallment)
 
-const creditCardMultipleInstallments = () => requestWrapper(payload.creditCardMultipleInstallments)
+const creditCardWithMultipleInstallments = () => requestWrapper(payload.creditCardWithMultipleInstallments)
 
-const creditCardSyncPostback = () => requestWrapper(payload.creditCardSyncPostback)
+const creditCardWithSyncPostback = () => requestWrapper(payload.creditCardWithSyncPostback)
 
 const oneClickBuy = () => requestWrapper(payload.oneClickBuy)
 
 const authorizeAndCaptureSmallerAmount = () => requestWrapper(payload.authorizeCreditCardTransaction)
-  .then((response) => requestWrapper(payload.captureSmallerAmount, { id: response.id }))
+  .then((response) => requestWrapper(payload.captureSmallerAmount, { transactionId: response.id }))
+
+const captureAndRefundPartially = () => requestWrapper(payload.creditCardWithOneInstallment)
+  .then((response) => requestWrapper(payload.refundPartially, { transactionId: response.id }))
 
 return Promise.all([
-  creditCardOneInstallment(),
-  creditCardMultipleInstallments(),
-  creditCardSyncPostback(),
+  creditCardWithOneInstallment(),
+  creditCardWithMultipleInstallments(),
+  creditCardWithSyncPostback(),
   oneClickBuy(),
-  authorizeAndCaptureSmallerAmount()
+  authorizeAndCaptureSmallerAmount(),
+  captureAndRefundPartially()
 ])
 .then(() => console.log('done'))
 .catch((err) => console.log('ops, we got an error here : ', err))

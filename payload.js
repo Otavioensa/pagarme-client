@@ -3,7 +3,7 @@
 const api_key = require('./config').keys.api_key
 const card_id = require('./config').keys.card_id
 
-exports.creditCardOneInstallment = (card_hash) => {
+exports.creditCardWithOneInstallment = (card_hash) => {
   return {
     method: 'POST',
     uri: 'https://api.pagar.me/1/transactions',
@@ -75,7 +75,7 @@ exports.creditCardOneInstallment = (card_hash) => {
   }
 }
 
-exports.creditCardMultipleInstallments = (card_hash) => {
+exports.creditCardWithMultipleInstallments = (card_hash) => {
   return {
     method: 'POST',
     uri: 'https://api.pagar.me/1/transactions',
@@ -148,7 +148,7 @@ exports.creditCardMultipleInstallments = (card_hash) => {
   }
 }
 
-exports.creditCardSyncPostback = (card_hash) => {
+exports.creditCardWithSyncPostback = (card_hash) => {
   return {
     method: 'POST',
     uri: 'https://api.pagar.me/1/transactions',
@@ -371,10 +371,31 @@ exports.authorizeCreditCardTransaction = (card_hash) => {
 exports.captureSmallerAmount = (card_hash, params) => {
   return {
     method: 'POST',
-    uri: `https://api.pagar.me/1/transactions/${params.id}/capture`,
+    uri: `https://api.pagar.me/1/transactions/${params.transactionId}/capture`,
     body: {
       amount: '1000',
       api_key: api_key
+    },
+    json: true
+  }
+}
+
+exports.refundPartially = (card_hash, params) => {
+  return {
+    method: 'POST',
+    uri: `https://api.pagar.me/1/transactions/${params.transactionId}/refund`,
+    body: {
+      api_key: api_key,
+      amount: '100',
+      bank_account: {
+        bank_code: '033',
+        agencia: '0203',
+        agencia_dv: '8',
+        conta: '517607',
+        conta_dv: '5',
+        document_number: '67725689745',
+        legal_name: 'John Doe'
+      }
     },
     json: true
   }
