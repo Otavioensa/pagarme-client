@@ -400,3 +400,43 @@ exports.refundPartially = (card_hash, params) => {
     json: true
   }
 }
+
+exports.generateTicket = () => {
+  return {
+    method: 'POST',
+    uri: 'https://api.pagar.me/1/transactions',
+    body: {
+      api_key: api_key,
+      amount: 2100,
+      payment_method: 'boleto',
+      customer: {
+        external_id: '#3311',
+        name: 'John Doe',
+        type: 'individual',
+        country: 'br',
+        email: 'John@doe.com',
+        documents: [
+          {
+            type: 'cpf',
+            number: '00000000000'
+          }
+        ],
+        phone_numbers: ['+5511999998888', '+5511888889999'],
+        birthday: '1965-01-01'
+      }
+    },
+    json: true
+  }
+}
+
+exports.payTicket = (card_hash, params) => {
+  return {
+    method: 'PUT',
+    uri: `https://api.pagar.me/1/transactions/${params.transactionId}`,
+    body: {
+      api_key: api_key,
+      status: 'paid'
+    },
+    json: true
+  }
+}

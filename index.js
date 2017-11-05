@@ -23,13 +23,17 @@ const authorizeAndCaptureSmallerAmount = () => requestWrapper(payload.authorizeC
 const captureAndRefundPartially = () => requestWrapper(payload.creditCardWithOneInstallment)
   .then((response) => requestWrapper(payload.refundPartially, { transactionId: response.id }))
 
+const generateTicketAndPay = () => requestWrapper(payload.generateTicket)
+  .then((response) => requestWrapper(payload.payTicket, { transactionId: response.id }))
+
 return Promise.all([
   creditCardWithOneInstallment(),
   creditCardWithMultipleInstallments(),
   creditCardWithSyncPostback(),
   oneClickBuy(),
   authorizeAndCaptureSmallerAmount(),
-  captureAndRefundPartially()
+  captureAndRefundPartially(),
+  generateTicketAndPay()
 ])
 .then(() => console.log('done'))
 .catch((err) => console.log('ops, we got an error here : ', err))
