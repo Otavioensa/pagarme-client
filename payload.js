@@ -1,7 +1,8 @@
 'use strict'
 
-const api_key = require('./config').keys.api_key
-const card_id = require('./config').keys.card_id
+import { keys} from './config'
+const { api_key } = keys
+const { card_id } = keys
 
 exports.creditCardWithOneInstallment = (card_hash) => {
   return {

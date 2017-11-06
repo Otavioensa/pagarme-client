@@ -1,8 +1,7 @@
 'use strict'
 
-require('dotenv').config()
-const pagarme = require('pagarme')
-const config = require('./config')
+import pagarme from 'pagarme'
+import config from './config'
 
 exports.generate = () => {
 

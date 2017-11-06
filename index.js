@@ -1,9 +1,9 @@
 'use strict'
 
-const request = require('request-promise');
-const cardHashGenerator = require('./cardHashGenerator')
-const payload = require('./payload')
-const recipientInfo = require('./config').recipientInfo
+import request from 'request-promise'
+import cardHashGenerator from './cardHashGenerator'
+import payload from './payload'
+import { recipientInfo } from './config'
 
 const requestWrapper = (getPayload, params) => {
   return cardHashGenerator.generate()
@@ -32,7 +32,7 @@ const splitCreditCardPayment = () => requestWrapper(payload.splitCreditCardPayme
 const splitAndRefundCreditCardPayment = () => requestWrapper(payload.splitCreditCardPayment, recipientInfo)
   .then((response) => requestWrapper(payload.refundWithSplitRules, { transactionId: response.id, recipientInfo: recipientInfo, split_rules: response.split_rules }))
 
-return Promise.all([
+const start = (() => Promise.all([
   creditCardWithOneInstallment(),
   creditCardWithMultipleInstallments(),
   creditCardWithSyncPostback(),
@@ -44,4 +44,4 @@ return Promise.all([
   splitAndRefundCreditCardPayment()
 ])
 .then(() => console.log('done'))
-.catch((err) => console.log('ops, we got an error here : ', err))
+.catch((err) => console.log('ops, we got an error here : ', err)))()

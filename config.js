@@ -1,5 +1,8 @@
 'use strict'
 
+import { config } from 'dotenv'
+config()
+
 const keys = {
   api_key: process.env.API_KEY,
   encryption_key: process.env.ENCRYPTION_KEY,
