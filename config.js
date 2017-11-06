@@ -21,8 +21,13 @@ const recipientInfo = {
 	secondRecipient: process.env.SECOND_RECIPIENT
 }
 
+const planInfo = {
+  planId: process.env.PLAN_ID
+}
+
 module.exports = {
   keys: keys,
   cardInfo: cardInfo,
-  recipientInfo: recipientInfo
+  recipientInfo: recipientInfo,
+  planInfo: planInfo
 }

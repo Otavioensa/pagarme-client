@@ -1,8 +1,10 @@
 'use strict'
 
 import { keys} from './config'
+import { planInfo} from './config'
 const { api_key } = keys
 const { card_id } = keys
+const { planId } = planInfo
 
 exports.creditCardWithOneInstallment = (card_hash) => {
   return {
@@ -570,6 +572,22 @@ exports.refundWithSplitRules = (card_hash, params) => {
           charge_processing_fee: true
         }
       ]
+    },
+    json: true
+  }
+}
+
+exports.subscribeToPlan = (card_hash) => {
+  return {
+    method: 'POST',
+    uri: 'https://api.pagar.me/1/subscriptions',
+    body: {
+      api_key: api_key,
+      plan_id: planId,
+      card_hash: card_hash,
+      customer: {
+        email: 'fulano@gmail.com'
+      }
     },
     json: true
   }
