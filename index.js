@@ -29,6 +29,9 @@ const generateTicketAndPay = () => requestWrapper(payload.generateTicket)
 
 const splitCreditCardPayment = () => requestWrapper(payload.splitCreditCardPayment, recipientInfo)
 
+const splitAndRefundCreditCardPayment = () => requestWrapper(payload.splitCreditCardPayment, recipientInfo)
+  .then((response) => requestWrapper(payload.refundWithSplitRules, { transactionId: response.id, recipientInfo: recipientInfo, split_rules: response.split_rules }))
+
 return Promise.all([
   creditCardWithOneInstallment(),
   creditCardWithMultipleInstallments(),
@@ -37,7 +40,8 @@ return Promise.all([
   authorizeAndCaptureSmallerAmount(),
   captureAndRefundPartially(),
   generateTicketAndPay(),
-  splitCreditCardPayment()
+  splitCreditCardPayment(),
+  splitAndRefundCreditCardPayment()
 ])
 .then(() => console.log('done'))
 .catch((err) => console.log('ops, we got an error here : ', err))

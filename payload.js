@@ -456,7 +456,7 @@ exports.splitCreditCardPayment = (card_hash, params) => {
             id: 'sr_cj6dsh3eg0mlm6m6dh6r036bk',
             liable: true,
             amount: null,
-            percentage: 50,
+            percentage: 30,
             recipient_id: params.firstRecipient,
             charge_remainder: false,
             charge_processing_fee: true,
@@ -468,7 +468,7 @@ exports.splitCreditCardPayment = (card_hash, params) => {
             id: 'sr_cj6dsh3ef0mll6m6dxk40wxw8',
             liable: true,
             amount: null,
-            percentage: 50,
+            percentage: 70,
             recipient_id: params.secondRecipient,
             charge_remainder: true,
             charge_processing_fee: true,
@@ -532,6 +532,41 @@ exports.splitCreditCardPayment = (card_hash, params) => {
           unit_price: 10000,
           quantity: 1,
           tangible: true
+        }
+      ]
+    },
+    json: true
+  }
+}
+
+exports.refundWithSplitRules = (card_hash, params) => {
+  return {
+    method: 'POST',
+    uri: `https://api.pagar.me/1/transactions/${params.transactionId}/refund`,
+    body: {
+      api_key: api_key,
+      amount: '2100',
+      bank_account: {
+        bank_code: '033',
+        agencia: '0203',
+        agencia_dv: '8',
+        conta: '517607',
+        conta_dv: '5',
+        document_number: '67725689745',
+        legal_name: 'John Doe'
+      },
+      split_rules: [
+        {
+          id: params.split_rules[0].id,
+          percentage: 70,
+          recipient_id: params.recipientInfo.firstRecipient,
+          charge_processing_fee: true
+        },
+        {
+          id: params.split_rules[1].id,
+          percentage: 30,
+          recipient_id: params.recipientInfo.secondRecipient,
+          charge_processing_fee: true
         }
       ]
     },
