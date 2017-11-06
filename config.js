@@ -13,7 +13,13 @@ const cardInfo = {
   card_cvv: process.env.CARD_CVV,
 }
 
+const recipientInfo = {
+	firstRecipient: process.env.FIRST_RECIPIENT,
+	secondRecipient: process.env.SECOND_RECIPIENT
+}
+
 module.exports = {
   keys: keys,
-  cardInfo: cardInfo
+  cardInfo: cardInfo,
+  recipientInfo: recipientInfo
 }

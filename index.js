@@ -3,6 +3,7 @@
 const request = require('request-promise');
 const cardHashGenerator = require('./cardHashGenerator')
 const payload = require('./payload')
+const recipientInfo = require('./config').recipientInfo
 
 const requestWrapper = (getPayload, params) => {
   return cardHashGenerator.generate()
@@ -26,6 +27,8 @@ const captureAndRefundPartially = () => requestWrapper(payload.creditCardWithOne
 const generateTicketAndPay = () => requestWrapper(payload.generateTicket)
   .then((response) => requestWrapper(payload.payTicket, { transactionId: response.id }))
 
+const splitCreditCardPayment = () => requestWrapper(payload.splitCreditCardPayment, recipientInfo)
+
 return Promise.all([
   creditCardWithOneInstallment(),
   creditCardWithMultipleInstallments(),
@@ -33,7 +36,8 @@ return Promise.all([
   oneClickBuy(),
   authorizeAndCaptureSmallerAmount(),
   captureAndRefundPartially(),
-  generateTicketAndPay()
+  generateTicketAndPay(),
+  splitCreditCardPayment()
 ])
 .then(() => console.log('done'))
 .catch((err) => console.log('ops, we got an error here : ', err))
