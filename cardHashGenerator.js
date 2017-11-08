@@ -1,10 +1,10 @@
-'use strict'
 
 import pagarme from 'pagarme'
-import config from './config'
+import { keys, cardInfo } from './config'
 
-exports.generate = () => {
-
-  return pagarme.client.connect({ encryption_key: config.keys.encryption_key })
-    .then(client =>  client.security.encrypt(config.cardInfo))
+const connectParams = {
+  encryption_key: keys.encryption_key,
 }
+
+exports.generate = () => pagarme.client.connect(connectParams)
+  .then(client => client.security.encrypt(cardInfo))

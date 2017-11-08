@@ -1,12 +1,12 @@
-'use strict'
 
 import { config } from 'dotenv'
+
 config()
 
 const keys = {
   api_key: process.env.API_KEY,
   encryption_key: process.env.ENCRYPTION_KEY,
-  card_id: process.env.CARD_ID
+  card_id: process.env.CARD_ID,
 }
 
 const cardInfo = {
@@ -17,17 +17,12 @@ const cardInfo = {
 }
 
 const recipientInfo = {
-	firstRecipient: process.env.FIRST_RECIPIENT,
-	secondRecipient: process.env.SECOND_RECIPIENT
+  firstRecipient: process.env.FIRST_RECIPIENT,
+  secondRecipient: process.env.SECOND_RECIPIENT,
 }
 
 const planInfo = {
-  planId: process.env.PLAN_ID
+  planId: process.env.PLAN_ID,
 }
 
-module.exports = {
-  keys: keys,
-  cardInfo: cardInfo,
-  recipientInfo: recipientInfo,
-  planInfo: planInfo
-}
+export { keys, cardInfo, recipientInfo, planInfo }
